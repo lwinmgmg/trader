@@ -12,5 +12,5 @@ echo "Done..."
 
 # Pylint Linter
 echo "Pylint Linter is running"
-poetry run coverage run -m pylint src/trader
+poetry run pylint src/trader
 echo "Done..."
