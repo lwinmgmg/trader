@@ -1,0 +1,38 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Dream Ticket(Python)
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    container: lwinmgmg/poetry:3.11.8-1.8.0
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v4
+    - name: Installation
+      run: poetry install
+    - name: Start Linting
+      run: ./linting.sh
+
+  test:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    container: lwinmgmg/poetry:3.11.8-1.8.0
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v4
+    - name: Copying config
+      run: cp .env.example .env
+    - name: Installation
+      run: poetry install
+    - name: Testing
+      run: ./testing.sh

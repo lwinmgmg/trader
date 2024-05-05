@@ -3,6 +3,7 @@
 Returns:
     _type_: _description_
 """
+
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -13,6 +14,7 @@ class Env(BaseSettings):
     Args:
         BaseSettings (_type_): _description_
     """
+
     FUTURE_URL: str
     FUTURE_API_KEY: str
     FUTURE_SECRET: Optional[str]
