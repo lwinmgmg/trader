@@ -1,0 +1,12 @@
+.vscode
+*.pyc
+**/*.pyc
+*__pycache__
+**/*__pycache__
+.python-version
+*.env
+.env
+.pytest_cache
+.ipynb_checkpoints
+*.ipynb
+**/*.ipynb
