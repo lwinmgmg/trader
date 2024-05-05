@@ -13,6 +13,14 @@ async def test_future_price():
 
 
 @pytest.mark.asyncio
+async def test_future_price_failed():
+    settings = get_env()
+    future_price = FuturePrice(settings=settings)
+    status, data = await future_price.get_price("BTC1USDT")
+    assert status != 200
+
+
+@pytest.mark.asyncio
 async def test_future_prices():
     settings = get_env()
     future_price = FuturePrice(settings=settings)

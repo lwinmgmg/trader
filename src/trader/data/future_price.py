@@ -29,19 +29,23 @@ class FuturePrice:
 
     def __init__(self, settings: Env) -> None:
         self.settings = settings
+        self.headers = {"X-MBX-APIKEY": self.settings.FUTURE_API_KEY}
 
-    async def _do_request(self, url: str, session: aiohttp.ClientSession):
-        async with session.get(url) as response:
+    async def _do_request(
+        self, url: str, session: aiohttp.ClientSession
+    ) -> Tuple[int, Any]:
+        async with session.get(url, headers=self.headers) as response:
             return response.status, await response.json()
 
-    async def get_price(self, symbol: str) -> Tuple[int, FuturePriceModel]:
+    async def get_price(self, symbol: str) -> Tuple[int, FuturePriceModel | Any]:
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                self.settings.FUTURE_URL + "/fapi/v1/ticker/24hr" + f"?symbol={symbol}"
-            ) as response:
-                return response.status, FuturePriceModel.model_validate(
-                    await response.json()
-                )
+            status, data = await self._do_request(
+                self.settings.FUTURE_URL + "/fapi/v1/ticker/24hr" + f"?symbol={symbol}",
+                session,
+            )
+            if status == 200:
+                return status, FuturePriceModel.model_validate(data)
+            return status, data
 
     async def get_prices(
         self, symbols: List[str]
