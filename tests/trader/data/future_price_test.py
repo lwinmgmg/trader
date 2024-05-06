@@ -109,7 +109,9 @@ async def test_future_price(mock_get):
 
 
 @pytest.mark.asyncio
-async def test_future_price_failed():
+@patch("aiohttp.ClientSession")
+async def test_future_price_failed(mock_get):
+    mock_get.return_value = FakeClientSession()
     settings = get_env()
     future_price = FuturePrice(settings=settings)
     status, _ = await future_price.get_price("BTC1USDT")
@@ -117,7 +119,9 @@ async def test_future_price_failed():
 
 
 @pytest.mark.asyncio
-async def test_future_prices():
+@patch("aiohttp.ClientSession")
+async def test_future_prices(mock_get):
+    mock_get.return_value = FakeClientSession()
     settings = get_env()
     future_price = FuturePrice(settings=settings)
     symbols = ["BTCUSDT", "ETHUSDT"]
@@ -129,7 +133,9 @@ async def test_future_prices():
 
 
 @pytest.mark.asyncio
-async def test_future_prices_failed():
+@patch("aiohttp.ClientSession")
+async def test_future_prices_failed(mock_get):
+    mock_get.return_value = FakeClientSession()
     settings = get_env()
     future_price = FuturePrice(settings=settings)
     symbols = ["BTCUSDT", "ETH1USDT"]
