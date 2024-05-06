@@ -115,7 +115,7 @@ async def test_future_price_failed(mock_get):
     settings = get_env()
     future_price = FuturePrice(settings=settings)
     status, _ = await future_price.get_price("BTC1USDT")
-    assert status != 200
+    assert status == 400
 
 
 @pytest.mark.asyncio
@@ -140,4 +140,4 @@ async def test_future_prices_failed(mock_get):
     future_price = FuturePrice(settings=settings)
     symbols = ["BTCUSDT", "ETH1USDT"]
     status, data_list = await future_price.get_prices(symbols)
-    assert status != 200
+    assert status == 400
