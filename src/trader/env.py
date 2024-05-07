@@ -15,6 +15,10 @@ class Env(BaseSettings):
         BaseSettings (_type_): _description_
     """
 
+    MONGO_HOST: str
+    MONGO_PORT: int
+    MONGO_USERNAME: str
+    MONGO_PASSWORD: str
     FUTURE_URL: str
     FUTURE_API_KEY: str
     FUTURE_SECRET: Optional[str]

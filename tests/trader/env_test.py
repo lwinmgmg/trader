@@ -2,6 +2,10 @@ import os
 from trader.env import get_env
 
 env_file_data = """
+MONGO_HOST=mongo
+MONGO_PORT=27017
+MONGO_USERNAME=root
+MONGO_PASSWORD=example
 FUTURE_URL=https://fapi.binance.com
 FUTURE_SECRET=testing
 FUTURE_API_KEY=test_api_key

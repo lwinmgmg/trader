@@ -31,6 +31,12 @@ jobs:
       - lint
     runs-on: ubuntu-latest
     container: lwinmgmg/poetry:3.11.8-1.8.0
+    services:
+      mongo:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     steps:
     - name: Code Checkout
       uses: actions/checkout@v4
