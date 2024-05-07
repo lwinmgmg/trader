@@ -1,6 +1,6 @@
-from typing import Tuple, List, Any
+from typing import Tuple, List, Any, Optional
 import aiohttp
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from trader.env import Env
 from trader.lib.parallel_execute import parallel_execute
 
@@ -22,6 +22,8 @@ class FuturePriceModel(BaseModel):
     firstId: int
     lastId: int
     count: int
+    time: Optional[int] = 0.0
+    id: Optional[str] = Field(validation_alias="_id", default="")
 
 
 class FuturePrice:
