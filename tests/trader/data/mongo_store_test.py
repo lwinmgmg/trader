@@ -58,12 +58,13 @@ async def test_mongo_store_client():
             # Assert
             assert res.inserted_id
 
+
 @pytest.mark.asyncio
 async def test_mongo_store_insert_one():
     # Arrange
     db_name = "test_db"
     col_name = "test_col"
-    data = {"foo":"bar"}
+    data = {"foo": "bar"}
     store = MockMongoStore(db_name=db_name, col_name=col_name)
 
     # Act for client
@@ -75,12 +76,13 @@ async def test_mongo_store_insert_one():
             result = await collection.find_one({"_id": res.inserted_id})
             assert result["foo"] == data["foo"]
 
+
 @pytest.mark.asyncio
 async def test_mongo_store_insert_many():
     # Arrange
     db_name = "test_db"
     col_name = "test_col"
-    data_list = [{"foo":"bar"}, {"foo":"abc"}]
+    data_list = [{"foo": "bar"}, {"foo": "abc"}]
     store = MockMongoStore(db_name=db_name, col_name=col_name)
 
     # Act for client
@@ -93,12 +95,13 @@ async def test_mongo_store_insert_many():
                 result = await collection.find_one({"_id": data["_id"]})
                 assert result["foo"] == data["foo"]
 
+
 @pytest.mark.asyncio
 async def test_mongo_store_find_one():
     # Arrange
     db_name = "test_db"
     col_name = "test_col"
-    data = {"foo":"bar"}
+    data = {"foo": "bar"}
     store = MockMongoStore(db_name=db_name, col_name=col_name)
 
     # Act for client
@@ -110,12 +113,13 @@ async def test_mongo_store_find_one():
             assert res.inserted_id
             assert result["foo"] == data["foo"]
 
+
 @pytest.mark.asyncio
 async def test_mongo_store_find():
     # Arrange
     db_name = "test_db"
     col_name = "test_col"
-    data_list = [{"foo":"bar"}, {"foo":"abc"}]
+    data_list = [{"foo": "bar"}, {"foo": "abc"}]
     store = MockMongoStore(db_name=db_name, col_name=col_name)
 
     # Act for client
@@ -124,6 +128,11 @@ async def test_mongo_store_find():
             res = await collection.insert_many(data_list)
             results = store.find({"_id": {"$in": res.inserted_ids}})
             # Assert
-            
+            count = 0
             async for result in results:
-                assert result["foo"] == data_list[0]["foo"] or result["foo"] == data_list[1]["foo"]
+                count += 1
+                assert (
+                    result["foo"] == data_list[0]["foo"]
+                    or result["foo"] == data_list[1]["foo"]
+                )
+            assert count == 2

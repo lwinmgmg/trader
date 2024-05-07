@@ -1,5 +1,4 @@
-from typing import Any
-from motor import MotorClient, MotorCursor
+from motor import MotorClient
 from trader.services.mongo_conn import (
     get_motor_client,
     get_mongo_client_mgr,
