@@ -1,4 +1,5 @@
-from motor import MotorClient
+from typing import Any
+from motor import MotorClient, MotorCursor
 from trader.services.mongo_conn import (
     get_motor_client,
     get_mongo_client_mgr,
@@ -30,3 +31,18 @@ class MongoStore:
     @property
     def client(self) -> MongoContextManager:
         return get_mongo_client_mgr(self.m_client)
+
+    async def insert_one(self, *arg, **kwargs):
+        async with self.collection as col:
+            return await col.insert_one(*arg, **kwargs)
+
+    async def insert_many(self, *arg, **kwargs):
+        async with self.collection as col:
+            return await col.insert_many(*arg, **kwargs)
+
+    async def find_one(self, *arg, **kwargs):
+        async with self.collection as col:
+            return await col.find_one(*arg, **kwargs)
+
+    def find(self, *args, **kwargs):
+        return self.m_client[self.db_name][self.col_name].find(*args, **kwargs)

@@ -1,7 +1,7 @@
 """Connection Service For Mongo DB
 """
 
-from motor import MotorClient
+from motor import MotorClient, MotorCollection, MotorDatabase
 from trader.env import get_env
 
 settings = get_env()
@@ -12,7 +12,6 @@ class MongoContextManager:
         self.client = client
 
     async def __aexit__(self, *args, **kwargs):
-        print(args, "***************************")
         self.client.close()
 
     async def __aenter__(self) -> MotorClient:
@@ -24,7 +23,7 @@ class MongoDbContextManager(MongoContextManager):
         self.client = client
         self.db_name = db_name
 
-    async def __aenter__(self) -> MotorClient:
+    async def __aenter__(self) -> MotorDatabase:
         return self.client[self.db_name]
 
 
@@ -34,7 +33,7 @@ class MongoColContextManager(MongoContextManager):
         self.db_name = db_name
         self.col_name = col_name
 
-    async def __aenter__(self) -> MotorClient:
+    async def __aenter__(self) -> MotorCollection:
         return self.client[self.db_name][self.col_name]
 
 
