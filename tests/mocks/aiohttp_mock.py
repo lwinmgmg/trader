@@ -1,5 +1,6 @@
 from typing import Optional, Any
 from trader.env import get_env
+from trader.data.symbol_enums import Symbol
 
 
 class FakeAsyncContextMgr:
@@ -40,10 +41,10 @@ class FakeClientSession:
         res_map = {
             settings.FUTURE_URL
             + "/fapi/v1/ticker/24hr"
-            + "?symbol=BTCUSDT": {
+            + f"?symbol={Symbol.BTC.value}": {
                 "status": 200,
                 "data": {
-                    "symbol": "BTCUSDT",
+                    "symbol": Symbol.BTC.value,
                     "priceChange": "-94.99999800",
                     "priceChangePercent": "-95.960",
                     "weightedAvgPrice": "0.29628482",
@@ -66,10 +67,10 @@ class FakeClientSession:
             + "?symbol=BTC1USDT": {"status": 400, "data": {"message": "Failed"}},
             settings.FUTURE_URL
             + "/fapi/v1/ticker/24hr"
-            + "?symbol=ETHUSDT": {
+            + f"?symbol={Symbol.ETH.value}": {
                 "status": 200,
                 "data": {
-                    "symbol": "ETHUSDT",
+                    "symbol": Symbol.ETH.value,
                     "priceChange": "-94.99999800",
                     "priceChangePercent": "-95.960",
                     "weightedAvgPrice": "0.29628482",

@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import List, Dict
 from trader.env import get_env
 from trader.data.future_price import FuturePrice, FuturePriceModel
 from trader.data.mongo_store import MongoStore
@@ -13,9 +12,6 @@ class FutureStore(MongoStore):
         self.symbol = symbol
         self.settings = get_env()
         self.future_price = FuturePrice(settings=self.settings)
-        self.store_length = 0
-        self.store: List[FuturePriceModel] = []
-        self.time_map: Dict[str, int] = {}
 
     async def update_prices(self) -> FuturePriceModel | None:
         status, price = await self.future_price.get_price(symbol=self.symbol)
@@ -25,7 +21,4 @@ class FutureStore(MongoStore):
         price.time = now_time
         res = await self.insert_one(price.model_dump())
         price.id = str(res.inserted_id)
-        self.time_map[now_time] = self.store_length
-        self.store_length += 1
-        self.store.append(price)
         return price
